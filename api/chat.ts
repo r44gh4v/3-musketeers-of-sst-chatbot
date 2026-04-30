@@ -1,4 +1,3 @@
-import express from "express";
 import { createChatCompletion } from "./lib/geminiClient";
 import { getPersonaPrompt } from "./lib/personas";
 
@@ -7,16 +6,15 @@ interface ClientMessage {
   content: string;
 }
 
-interface ChatRequestBody {
-  personaId?: string;
-  messages?: ClientMessage[];
-}
+export default async function handler(req: any, res: any) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: { message: "Method not allowed." } });
+  }
 
-const app = express();
-app.use(express.json({ limit: "64kb" }));
-
-const handler = async (req: express.Request, res: express.Response) => {
-  const { personaId, messages } = (req.body ?? {}) as ChatRequestBody;
+  const { personaId, messages } = (req.body ?? {}) as {
+    personaId?: string;
+    messages?: ClientMessage[];
+  };
 
   if (!personaId || !Array.isArray(messages)) {
     return res.status(400).json({ error: { message: "Missing personaId or messages." } });
@@ -55,9 +53,4 @@ const handler = async (req: express.Request, res: express.Response) => {
       error instanceof Error ? error.message : "The assistant is unavailable right now.";
     return res.status(500).json({ error: { message } });
   }
-};
-
-app.post("/", handler);
-app.post("/api/chat", handler);
-
-export default app;
+}
