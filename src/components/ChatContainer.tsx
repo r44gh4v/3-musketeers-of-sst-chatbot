@@ -8,6 +8,9 @@ interface ChatContainerProps {
   messages: ChatMessage[];
   isLoading: boolean;
   endRef?: RefObject<HTMLDivElement>;
+  personaName: string;
+  personaTitle: string;
+  personaImage: string;
   suggestions: string[];
   onSuggestion: (text: string) => void;
 }
@@ -16,35 +19,60 @@ export default function ChatContainer({
   messages,
   isLoading,
   endRef,
+  personaName,
+  personaTitle,
+  personaImage,
   suggestions,
   onSuggestion
 }: ChatContainerProps) {
   return (
-    <section className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-200 bg-white">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-5 sm:px-6 [scroll-padding-bottom:24px]">
-          {messages.length === 0 ? (
-            <div className="flex flex-1 items-center justify-center">
-              <div className="flex max-w-md flex-col items-center gap-4 text-center">
-                <p className="text-sm text-slate-500">Start with a suggestion or ask your own question.</p>
-                <SuggestionChips
-                  suggestions={suggestions}
-                  onSelect={onSuggestion}
-                  disabled={isLoading}
-                />
-              </div>
+    <main className="flex-1 overflow-y-auto">
+      {messages.length === 0 ? (
+
+        /* ── Empty state ───────────────────────────────── */
+        <div className="flex h-full flex-col items-center justify-center gap-8 px-6 text-center">
+
+          {/* Persona photo */}
+          <div className="flex flex-col items-center gap-3">
+            <img
+              src={personaImage}
+              alt={personaName}
+              className="h-20 w-20 rounded-full object-cover shadow-md ring-4 ring-white"
+            />
+            <div>
+              <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#b0a48e]">
+                talking to
+              </p>
+              <h2 className="font-display text-2xl font-bold text-ink">{personaName}</h2>
+              <p className="mt-0.5 text-xs text-[#8a7f6e]">{personaTitle}</p>
             </div>
-          ) : (
-            <div className="flex flex-col gap-3 pb-6">
-              {messages.map((message) => (
-                <ChatMessageBubble key={message.id} message={message} />
-              ))}
-              {isLoading && <TypingIndicator />}
-              <div ref={endRef} />
-            </div>
-          )}
+          </div>
+
+          {/* Suggestion cards */}
+          <SuggestionChips
+            suggestions={suggestions}
+            onSelect={onSuggestion}
+            disabled={isLoading}
+          />
         </div>
-      </div>
-    </section>
+
+      ) : (
+
+        /* ── Conversation ──────────────────────────────── */
+        <div className="mx-auto flex w-full max-w-[960px] flex-col gap-3 px-5 py-6 sm:px-10">
+          {messages.map((message) => (
+            <ChatMessageBubble
+              key={message.id}
+              message={message}
+              personaImage={personaImage}
+              personaName={personaName}
+            />
+          ))}
+          {isLoading && <TypingIndicator personaImage={personaImage} personaName={personaName} />}
+          <div ref={endRef} />
+        </div>
+
+      )}
+    </main>
   );
 }

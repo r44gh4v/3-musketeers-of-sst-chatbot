@@ -6,16 +6,17 @@ interface SuggestionChipsProps {
 
 export default function SuggestionChips({ suggestions, onSelect, disabled }: SuggestionChipsProps) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
-      {suggestions.map((suggestion) => (
+    <div className="flex w-full max-w-sm flex-col gap-2">
+      {suggestions.map((s) => (
         <button
-          key={suggestion}
+          key={s}
           type="button"
-          className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-60"
-          onClick={() => onSelect(suggestion)}
+          onClick={() => onSelect(s)}
           disabled={disabled}
+          className="group flex items-center justify-between rounded-xl border border-[#ddd5c4] bg-white px-4 py-3 text-left text-sm font-medium text-[#5c5040] shadow-sm transition hover:border-[#c8bfb0] hover:bg-[#fdfaf6] hover:text-ink hover:shadow-md disabled:opacity-50"
         >
-          {suggestion}
+          <span>{s}</span>
+          <span className="ml-3 shrink-0 text-[#b8a88a] transition group-hover:translate-x-0.5 group-hover:text-ink">→</span>
         </button>
       ))}
     </div>

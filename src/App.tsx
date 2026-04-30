@@ -17,7 +17,7 @@ export default function App() {
   const requestVersion = useRef(0);
 
   const activePersona = useMemo(
-    () => personas.find((persona) => persona.id === activeId) ?? personas[0],
+    () => personas.find((p) => p.id === activeId) ?? personas[0],
     [activeId]
   );
 
@@ -26,120 +26,107 @@ export default function App() {
   }, [messages, isLoading]);
 
   const handlePersonaSelect = (id: typeof activeId) => {
-    if (id === activeId) {
-      return;
-    }
+    if (id === activeId) return;
+    requestVersion.current += 1;
     setActiveId(id);
     setMessages([]);
     setInput("");
     setIsLoading(false);
-    requestVersion.current += 1;
   };
 
   const sendMessage = async (content: string) => {
     const trimmed = content.trim();
-    if (!trimmed || isLoading) {
-      return;
-    }
+    if (!trimmed || isLoading) return;
 
     const version = requestVersion.current;
     const personaId = activePersona.id;
 
-    const userMessage: ChatMessage = {
-      id: createId(),
-      role: "user",
-      content: trimmed
-    };
-
+    const userMessage: ChatMessage = { id: createId(), role: "user", content: trimmed };
     const nextMessages = [...messages, userMessage];
+
     setMessages(nextMessages);
     setInput("");
     setIsLoading(true);
 
     try {
-      const apiMessages: ApiMessage[] = nextMessages.map((message) => ({
-        role: message.role,
-        content: message.content
+      const apiMessages: ApiMessage[] = nextMessages.map((m) => ({
+        role: m.role,
+        content: m.content
       }));
 
-      const response = await sendChatMessage({
-        personaId,
-        messages: apiMessages
-      });
-
-      if (requestVersion.current !== version) {
-        return;
-      }
-
-      setMessages([
-        ...nextMessages,
-        {
-          id: createId(),
-          role: "assistant",
-          content: response
-        }
-      ]);
+      const response = await sendChatMessage({ personaId, messages: apiMessages });
+      if (requestVersion.current !== version) return;
+      setMessages([...nextMessages, { id: createId(), role: "assistant", content: response }]);
     } catch (error) {
-      if (requestVersion.current !== version) {
-        return;
-      }
-      const message = error instanceof Error ? error.message : "Sorry, something went wrong.";
+      if (requestVersion.current !== version) return;
+      const msg = error instanceof Error ? error.message : "Something went wrong.";
       setMessages([
         ...nextMessages,
-        {
-          id: createId(),
-          role: "assistant",
-          content: message,
-          status: "error"
-        }
+        { id: createId(), role: "assistant", content: msg, status: "error" }
       ]);
     } finally {
-      if (requestVersion.current === version) {
-        setIsLoading(false);
-      }
+      if (requestVersion.current === version) setIsLoading(false);
     }
   };
 
-  const handleSend = () => sendMessage(input);
-  const handleSuggestion = (suggestion: string) => sendMessage(suggestion);
-
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto flex h-[100svh] w-full max-w-[1200px] flex-col gap-4 px-4 py-4 sm:px-6">
-        <header className="flex flex-col items-center gap-2 text-center sm:gap-3">
-          <h1 className="whitespace-nowrap text-lg font-semibold text-ink sm:text-xl">
-            3 Musketeers of SST
-          </h1>
-          <div className="hidden sm:flex">
-            <PersonaTabs
-              personas={personas}
-              activeId={activeId}
-              onSelect={handlePersonaSelect}
-              variant="tabs"
-            />
-          </div>
-          <div className="flex sm:hidden">
-            <PersonaTabs
-              personas={personas}
-              activeId={activeId}
-              onSelect={handlePersonaSelect}
-              variant="select"
-            />
-          </div>
-        </header>
+    <div className="flex h-[100svh] flex-col bg-paper">
 
-        <div className="flex min-h-0 flex-1 flex-col gap-3">
-          <ChatContainer
-            messages={messages}
-            isLoading={isLoading}
-            endRef={endRef}
-            suggestions={activePersona.suggestions}
-            onSuggestion={handleSuggestion}
+      {/* ── Header — page-native, warm background ───────── */}
+      <header className="shrink-0">
+
+        {/* Mobile: title left, select right */}
+        <div className="flex items-center justify-between px-5 py-4 sm:hidden">
+          <span className="font-display text-sm font-bold text-ink">
+            3 Musketeers <span className="font-normal text-[#9a8f7e]">of SST</span>
+          </span>
+          <PersonaTabs
+            personas={personas}
+            activeId={activeId}
+            onSelect={handlePersonaSelect}
+            variant="select"
           />
+        </div>
 
-          <ChatInput value={input} onChange={setInput} onSend={handleSend} disabled={isLoading} />
+        {/* Desktop: 3-col grid — title left, tabs DEAD CENTRE, spacer right */}
+        <div className="hidden grid-cols-[1fr_auto_1fr] items-center px-10 py-5 sm:grid">
+          <span className="font-display text-sm font-bold text-ink">
+            3 Musketeers <span className="font-normal text-[#9a8f7e]">of SST</span>
+          </span>
+          <PersonaTabs
+            personas={personas}
+            activeId={activeId}
+            onSelect={handlePersonaSelect}
+            variant="tabs"
+          />
+          <div />
+        </div>
+      </header>
+
+      {/* ── Messages — on the page, not in a box ─────────── */}
+      <ChatContainer
+        messages={messages}
+        isLoading={isLoading}
+        endRef={endRef}
+        personaName={activePersona.name}
+        personaTitle={activePersona.title}
+        personaImage={activePersona.image}
+        suggestions={activePersona.suggestions}
+        onSuggestion={(s) => sendMessage(s)}
+      />
+
+      {/* ── Input — floating card, no border-t needed ──── */}
+      <div className="shrink-0 px-5 pb-5 pt-2 sm:px-10">
+        <div className="mx-auto w-full max-w-[960px]">
+          <ChatInput
+            value={input}
+            onChange={setInput}
+            onSend={() => sendMessage(input)}
+            disabled={isLoading}
+          />
         </div>
       </div>
+
     </div>
   );
 }

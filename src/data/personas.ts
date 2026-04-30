@@ -3,9 +3,9 @@ export type PersonaId = "anshuman" | "abhimanyu" | "kshitij";
 export interface PersonaConfig {
   id: PersonaId;
   name: string;
+  shortName: string;
   title: string;
-  accent: string;
-  description: string;
+  image: string;
   suggestions: string[];
 }
 
@@ -13,37 +13,37 @@ export const personas: PersonaConfig[] = [
   {
     id: "anshuman",
     name: "Anshuman Singh",
-    title: "Clarity-first mentor",
-    accent: "#0ea5e9",
-    description: "Crisp, structured guidance with an emphasis on clear next steps.",
+    shortName: "Anshuman",
+    title: "Co-founder · Strategy & Execution",
+    image: "/personas/anshuman_singh.jpg",
     suggestions: [
-      "Reframe safe job vs startup choice",
-      "How do you approach ambiguous problems?",
-      "What makes a team scale well?"
+      "Safe job vs startup — how do I decide?",
+      "AI is changing jobs. What should I focus on?",
+      "I feel lost in my career. Where do I start?"
     ]
   },
   {
     id: "abhimanyu",
     name: "Abhimanyu Saxena",
-    title: "Encouraging problem solver",
-    accent: "#f97316",
-    description: "Supportive, practical coaching focused on steady improvement.",
+    shortName: "Abhimanyu",
+    title: "Co-founder · Builder & AI",
+    image: "/personas/abhimanyu_saxena.jpg",
     suggestions: [
-      "What should I focus on to get into AI?",
-      "Do you think AGI is close?",
-      "I feel too late to start in AI"
+      "What should I build to get into AI?",
+      "Am I too late to start in AI?",
+      "What's your take on AGI?"
     ]
   },
   {
     id: "kshitij",
     name: "Kshitij Mishra",
-    title: "Outcome-driven strategist",
-    accent: "#22c55e",
-    description: "Direct, structured guidance with a focus on outcomes.",
+    shortName: "Kshitij",
+    title: "Head of Instructors",
+    image: "/personas/kshitij_mishra.jpg",
     suggestions: [
-      "I struggle with recursion; how do I fix it?",
-      "Is open source worth it for interviews?",
-      "Talent vs effort: what matters more?"
+      "Recursion never clicks for me. Help.",
+      "Is open source worth the effort?",
+      "Will AI replace software engineers?"
     ]
   }
 ];

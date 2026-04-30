@@ -13,7 +13,7 @@ const DEFAULT_MODEL = process.env.GEMINI_MODEL ?? "gemini-3-flash-preview";
 const DEFAULT_API_URL =
   process.env.GEMINI_API_URL ??
   "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
-const DEFAULT_MAX_TOKENS = Number(process.env.GEMINI_MAX_TOKENS ?? 900);
+const DEFAULT_MAX_TOKENS = Number(process.env.GEMINI_MAX_TOKENS ?? 400);
 
 const REQUEST_TIMEOUT_MS = 30000;
 
