@@ -1,0 +1,17 @@
+node_modules
+
+# build output
+/dist
+
+# vercel
+.vercel
+
+# env
+.env
+.env.local
+
+# logs
+*.log
+
+# os
+.DS_Store
