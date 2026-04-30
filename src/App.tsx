@@ -72,7 +72,7 @@ export default function App() {
   return (
     <div className="flex h-[100svh] flex-col bg-paper">
 
-      {/* ── Header — page-native, warm background ───────── */}
+      {/* ── Header - page-native, warm background ───────── */}
       <header className="shrink-0">
 
         {/* Mobile: title left, select right */}
@@ -88,7 +88,7 @@ export default function App() {
           />
         </div>
 
-        {/* Desktop: 3-col grid — title left, tabs DEAD CENTRE, spacer right */}
+        {/* Desktop: 3-col grid - title left, tabs DEAD CENTRE, spacer right */}
         <div className="hidden grid-cols-[1fr_auto_1fr] items-center px-10 py-5 sm:grid">
           <span className="font-display text-sm font-bold text-ink">
             3 Musketeers <span className="font-normal text-[#9a8f7e]">of SST</span>
@@ -103,7 +103,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Messages — on the page, not in a box ─────────── */}
+      {/* ── Messages - on the page, not in a box ─────────── */}
       <ChatContainer
         messages={messages}
         isLoading={isLoading}
@@ -115,7 +115,7 @@ export default function App() {
         onSuggestion={(s) => sendMessage(s)}
       />
 
-      {/* ── Input — floating card, no border-t needed ──── */}
+      {/* ── Input - floating card, no border-t needed ──── */}
       <div className="shrink-0 px-5 pb-5 pt-2 sm:px-10">
         <div className="mx-auto w-full max-w-[960px]">
           <ChatInput

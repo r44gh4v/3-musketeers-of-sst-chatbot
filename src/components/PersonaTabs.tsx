@@ -38,7 +38,7 @@ export default function PersonaTabs({
   }
 
   return (
-    /* Warm pill container — all three personas side by side */
+    /* Warm pill container - all three personas side by side */
     <div className="flex items-center gap-1 rounded-2xl bg-[#ece6d8] p-1.5">
       {personas.map((p) => {
         const isActive = p.id === activeId;

@@ -41,18 +41,13 @@ npm run vercel:dev
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `GEMINI_API_KEY` | Yes | — | Your Gemini API key |
+| `GEMINI_API_KEY` | Yes | - | Your Gemini API key |
 | `GEMINI_MODEL` | No | `gemini-3-flash-preview` | Model to use |
 | `GEMINI_API_URL` | No | Google's OpenAI-compat endpoint | API endpoint |
 | `GEMINI_MAX_TOKENS` | No | `900` | Max response tokens |
 | `LOCAL_API_PORT` | No | `8787` | Port for the local API server |
-| `VITE_API_BASE` | No | — | Custom API base URL (for local testing) |
+| `VITE_API_BASE` | No | - | Custom API base URL (for local testing) |
 
 ## Deployment (Vercel)
-
-1. Create a Vercel project from the repo root
-2. Set `GEMINI_API_KEY` in Vercel environment variables
-3. Build command: `npm run build`
-4. Output directory: `dist`
 
 Both the React frontend and the Express API (`/api` folder) are deployed as a single Vercel project.

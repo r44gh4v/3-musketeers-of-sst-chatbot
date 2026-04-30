@@ -20,7 +20,7 @@ export default function ChatInput({ value, onChange, onSend, disabled }: ChatInp
   return (
     /*
      * Outer: rounded-2xl (16px) + px-4 (16px) py-3 (12px)
-     * Send button: rounded-lg (8px) — inner_r ≈ outer_r − min(pad_x, pad_y) = 16 − 8 ≈ 8
+     * Send button: rounded-lg (8px) - inner_r ≈ outer_r − min(pad_x, pad_y) = 16 − 8 ≈ 8
      */
     <div className="rounded-2xl border border-[#d5ccba] bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.07)]">
       <form

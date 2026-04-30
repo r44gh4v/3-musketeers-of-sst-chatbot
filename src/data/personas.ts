@@ -17,7 +17,7 @@ export const personas: PersonaConfig[] = [
     title: "Co-founder · Strategy & Execution",
     image: "/personas/anshuman_singh.jpg",
     suggestions: [
-      "Safe job vs startup — how do I decide?",
+      "Safe job vs startup - how do I decide?",
       "AI is changing jobs. What should I focus on?",
       "I feel lost in my career. Where do I start?"
     ]
