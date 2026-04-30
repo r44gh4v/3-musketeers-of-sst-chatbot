@@ -44,7 +44,7 @@ npm run vercel:dev
 | `GEMINI_API_KEY` | Yes | - | Your Gemini API key |
 | `GEMINI_MODEL` | No | `gemini-3-flash-preview` | Model to use |
 | `GEMINI_API_URL` | No | Google's OpenAI-compat endpoint | API endpoint |
-| `GEMINI_MAX_TOKENS` | No | `900` | Max response tokens |
+| `GEMINI_MAX_TOKENS` | No | `400` | Max response tokens |
 | `LOCAL_API_PORT` | No | `8787` | Port for the local API server |
 | `VITE_API_BASE` | No | - | Custom API base URL (for local testing) |
 
