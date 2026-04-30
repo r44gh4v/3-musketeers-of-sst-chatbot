@@ -51,10 +51,17 @@ export async function createChatCompletion(
   clearTimeout(timeout);
 
   if (!response.ok) {
-    const errorPayload = await response.json().catch(() => ({}));
-    const message =
-      (errorPayload as { error?: { message?: string } }).error?.message ??
-      "The model request failed.";
+    if (response.status === 429) {
+      throw new Error("Rate limit reached. Please wait a moment and try again.");
+    }
+    const raw = await response.text().catch(() => "");
+    let message = `Request failed with status ${response.status}`;
+    try {
+      const errorPayload = JSON.parse(raw) as { error?: { message?: string } };
+      message = errorPayload.error?.message ?? message;
+    } catch {
+      if (raw) message = raw;
+    }
     throw new Error(message);
   }
 

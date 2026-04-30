@@ -27,12 +27,14 @@ const handler = async (req: express.Request, res: express.Response) => {
     return res.status(400).json({ error: { message: "Unknown persona selected." } });
   }
 
-  const normalizedMessages = messages.filter(
-    (message) =>
-      (message.role === "user" || message.role === "assistant") &&
-      typeof message.content === "string" &&
-      message.content.trim().length > 0
-  );
+  const normalizedMessages = messages
+    .filter(
+      (message) =>
+        (message.role === "user" || message.role === "assistant") &&
+        typeof message.content === "string" &&
+        message.content.trim().length > 0
+    )
+    .slice(-10);
 
   if (normalizedMessages.length === 0) {
     return res.status(400).json({ error: { message: "No valid messages provided." } });
