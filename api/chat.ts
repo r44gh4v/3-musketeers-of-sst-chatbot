@@ -1,5 +1,5 @@
-import { createChatCompletion } from "./lib/geminiClient";
-import { getPersonaPrompt } from "./lib/personas";
+import { createChatCompletion } from "./lib/geminiClient.js";
+import { getPersonaPrompt } from "./lib/personas.js";
 
 interface ClientMessage {
   role: "user" | "assistant";

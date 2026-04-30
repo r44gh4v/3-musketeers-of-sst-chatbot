@@ -2,6 +2,7 @@
   "name": "three-musketeers-of-sst-chatbot",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "scripts": {
     "dev": "concurrently -k \"vite\" \"tsx watch server/dev.ts\"",
     "build": "vite build",
